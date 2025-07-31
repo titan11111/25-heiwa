@@ -414,9 +414,20 @@ function createSpellButtons() {
     });
 }
 
+// 🔊 魔法名を読み上げる
+function speakSpell(spellName) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(`${spellName}！`);
+        utterance.lang = 'ja-JP';
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
 // ✨ 魔法を唱える
 function castSpell(spellName) {
     console.log(`✨ 魔法「${spellName}」を使用`);
+    speakSpell(spellName);
     
     if (!currentEvent) {
         console.error('❌ 現在のイベントがありません');
