@@ -239,8 +239,39 @@ body {
   flex-wrap: wrap;
 }
 
+/* エンディング画面 */
+.ending-screen {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.ending-content {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+}
+
+.ending-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ending-choices {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
 /* ボタン共通スタイル */
-.back-button, .continue-button {
+.back-button, .continue-button, .ending-button {
   background: linear-gradient(135deg, #81C784 0%, #4CAF50 100%);
   border: none;
   border-radius: 10px;
@@ -253,12 +284,12 @@ body {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-.back-button:hover, .continue-button:hover {
+.back-button:hover, .continue-button:hover, .ending-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.back-button:active, .continue-button:active {
+.back-button:active, .continue-button:active, .ending-button:active {
   transform: translateY(0);
 }
 
@@ -330,7 +361,7 @@ body {
       align-items: center;
   }
   
-  .back-button, .continue-button {
+  .back-button, .continue-button, .ending-button {
       width: 100%;
       max-width: 200px;
   }

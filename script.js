@@ -331,10 +331,25 @@ function initializeGame() {
     // 戻るボタンのイベントリスナー
     document.getElementById('backButton').addEventListener('click', showVillageMap);
     document.getElementById('backToMapButton').addEventListener('click', showVillageMap);
-    
+
     // 続けるボタンのイベントリスナー
     document.getElementById('continueButton').addEventListener('click', function() {
-        showEvent(currentArea);
+        if (getGameProgress().percentage === 100) {
+            showEndingScreen();
+        } else {
+            showEvent(currentArea);
+        }
+    });
+
+    // エンディング分岐のボタン
+    document.getElementById('stayButton').addEventListener('click', function() {
+        chooseEnding('stay');
+    });
+    document.getElementById('adventureButton').addEventListener('click', function() {
+        chooseEnding('adventure');
+    });
+    document.getElementById('restartButton').addEventListener('click', function() {
+        resetGame();
     });
 }
 
@@ -343,7 +358,8 @@ function showVillageMap() {
     document.getElementById('villageMap').classList.remove('hidden');
     document.getElementById('eventScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.add('hidden');
-    
+    document.getElementById('endingScreen').classList.add('hidden');
+
     currentArea = null;
     currentEvent = null;
     updateVillageProgress(); // 進捗バー更新
@@ -466,6 +482,15 @@ function showResult(message, isSuccess) {
     if (isSuccess) {
         continueButton.classList.remove('hidden');
         updateVillageProgress(); // 成功時も進捗バー更新
+
+        // すべてのイベントを解決したかチェック
+        if (getGameProgress().percentage === 100) {
+            continueButton.textContent = '🌟 エンディングへ';
+            document.getElementById('backToMapButton').classList.add('hidden');
+        } else {
+            continueButton.textContent = '✨ 続ける';
+            document.getElementById('backToMapButton').classList.remove('hidden');
+        }
     } else {
         continueButton.classList.add('hidden');
     }
@@ -518,6 +543,29 @@ window.debugGame = debugGame;
 window.resetGame = resetGame;
 window.getGameProgress = getGameProgress;
 window.getAreaProgress = getAreaProgress;
+
+// 🎉 エンディング画面を表示
+function showEndingScreen() {
+    document.getElementById('villageMap').classList.add('hidden');
+    document.getElementById('eventScreen').classList.add('hidden');
+    document.getElementById('resultScreen').classList.add('hidden');
+    document.getElementById('endingScreen').classList.remove('hidden');
+    document.getElementById('endingChoices').classList.remove('hidden');
+    document.getElementById('restartButton').classList.add('hidden');
+    document.getElementById('endingText').textContent = '村人の困りごとを全て解決した勇者。これからどうする？';
+}
+
+// 🌟 分岐によるエンディング
+function chooseEnding(choice) {
+    const endingText = document.getElementById('endingText');
+    if (choice === 'stay') {
+        endingText.textContent = '勇者は村に残り、みんなと平和な日々を過ごしました。✨';
+    } else {
+        endingText.textContent = '勇者は新たな冒険へ旅立ちました。世界はまだ広い！🗺️';
+    }
+    document.getElementById('endingChoices').classList.add('hidden');
+    document.getElementById('restartButton').classList.remove('hidden');
+}
 
 console.log('🎮 魔王を倒した勇者の魔法RPG - 準備完了！');
 console.log('💡 デバッグコマンド: debugGame(), resetGame(), getGameProgress()');
