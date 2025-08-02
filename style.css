@@ -91,6 +91,13 @@ img.emoji {
   margin-bottom: 10px;
 }
 
+.forest-image {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 .area-name {
   font-size: 1.1rem;
   font-weight: bold;
