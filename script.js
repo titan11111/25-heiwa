@@ -569,3 +569,22 @@ function chooseEnding(choice) {
 
 console.log('🎮 魔王を倒した勇者の魔法RPG - 準備完了！');
 console.log('💡 デバッグコマンド: debugGame(), resetGame(), getGameProgress()');
+
+// 🖼️ すべての絵文字をSVG画像に変換
+const applyTwemoji = () => {
+    if (window.twemoji) {
+        twemoji.parse(document.body, { folder: 'svg', ext: '.svg' });
+    }
+};
+
+applyTwemoji();
+
+const twemojiObserver = new MutationObserver(() => {
+    applyTwemoji();
+});
+
+twemojiObserver.observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true
+});
