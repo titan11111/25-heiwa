@@ -299,6 +299,20 @@ let currentArea = null;
 let currentEvent = null;
 let solvedEvents = new Set(); // 解決したイベントを記録
 
+// 🎉 成功時に表示する褒め言葉
+const praiseMessages = [
+    "「さすが勇者様！村人たちが大喜びしています！」",
+    "「勇者様の魔法は本当に頼りになります！」",
+    "「お見事です、勇者様！あなたのおかげで助かりました！」"
+];
+
+// 😢 失敗時の村人の反応（ランダムに表示）
+const failureReactions = [
+    "村人は首をかしげている…",
+    "村人は少し不安そうにあなたを見つめている…",
+    "村人は苦笑いを浮かべている…"
+];
+
 // 村の発展度バーを更新
 function updateVillageProgress() {
     const progress = getGameProgress();
@@ -474,8 +488,17 @@ function showResult(message, isSuccess) {
     document.getElementById('eventScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.remove('hidden');
     
+    // 結果メッセージにリアクションを追加
+    if (isSuccess) {
+        const praise = praiseMessages[Math.floor(Math.random() * praiseMessages.length)];
+        message += `<br><br>${praise}`;
+    } else {
+        const reaction = failureReactions[Math.floor(Math.random() * failureReactions.length)];
+        message += `<br><br>${reaction}`;
+    }
+
     // 結果メッセージを表示
-    document.getElementById('resultText').textContent = message;
+    document.getElementById('resultText').innerHTML = message;
     
     // 成功の場合は続けるボタンを表示、失敗の場合は隠す
     const continueButton = document.getElementById('continueButton');
