@@ -432,7 +432,7 @@ function createSpellButtons() {
     spells.forEach(spell => {
         const button = document.createElement('button');
         button.className = 'spell-button';
-        button.innerHTML = `${spell.icon}<br>${spell.name}`;
+        button.innerHTML = `<span class="spell-icon">${spell.icon}</span><br>${spell.name}`;
         button.title = spell.effect; // ツールチップで効果を表示
         
         // クリック時の処理

@@ -87,13 +87,13 @@ img.emoji {
 }
 
 .area-icon {
-  font-size: 2.5rem;
+  font-size: 3.75rem;
   margin-bottom: 10px;
 }
 
 .forest-image {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3.75rem;
+  height: 3.75rem;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -221,6 +221,10 @@ img.emoji {
 
 .spell-button:active {
   transform: translateY(0);
+}
+
+.spell-icon {
+  font-size: 1.5em;
 }
 
 /* 結果画面 */
@@ -353,9 +357,14 @@ img.emoji {
   }
   
   .area-icon {
-      font-size: 2rem;
+      font-size: 3rem;
   }
-  
+
+  .forest-image {
+      width: 3rem;
+      height: 3rem;
+  }
+
   .area-name {
       font-size: 1rem;
   }
