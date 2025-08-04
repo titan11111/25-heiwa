@@ -612,3 +612,11 @@ twemojiObserver.observe(document.body, {
     subtree: true,
     characterData: true
 });
+
+// 🎵 BGMを再生
+const bgm = document.getElementById('bgm');
+const playBgm = () => {
+    bgm.play().catch(() => {});
+};
+playBgm();
+document.addEventListener('click', playBgm, { once: true });
