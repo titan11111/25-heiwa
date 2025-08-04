@@ -449,7 +449,7 @@ function speakSpell(spellName) {
     if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(`${spellName}！`);
         utterance.lang = 'ja-JP';
-        utterance.volume = 1; // 音量を最大に設定
+        utterance.volume = 1.3; // 音量を130%に設定
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(utterance);
     }
