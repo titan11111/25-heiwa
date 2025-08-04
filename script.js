@@ -313,6 +313,39 @@ const failureReactions = [
     "村人は苦笑いを浮かべている…"
 ];
 
+const spellFailureReactions = {
+    "みずだし": "「わっ、井戸から水があふれてきた！」",
+    "からすん": "「ひー、カラスの大群だあ！」",
+    "かぜきる": "「風がもっと強くなってるよ！」",
+    "けむはれ": "「霧が濃くなっちゃった！」",
+    "はしのべ": "「橋が変なところに伸びてる！」",
+    "らいなお": "「雷が落ちて余計壊れちゃった！」",
+    "いぬしず": "「犬がもっと吠え出したよ！」",
+    "うしよび": "「違う牛が集まってきた！」",
+    "とりだし": "「部屋にもっと鳥が入ってきた！」",
+    "よなきま": "「夜がさらにうるさくなった！」",
+    "かゆけし": "「かゆみが倍増してる！」",
+    "みみでる": "「虫が一斉に飛び出してきた！」",
+    "なかなお": "「みんなさらに怒っちゃった！」",
+    "みちしる": "「変な光で余計迷っちゃった！」",
+    "もどぱん": "「材料が空中を舞ってる！」",
+    "ひろたる": "「失くし物がさらに遠くへ！」",
+    "ひげしゅ": "「髪が逆立ってしまった！」",
+    "ひかりと": "「部屋が真っ暗になっちゃった！」",
+    "だまきき": "「物たちが大声でしゃべり出した！」",
+    "うきとめ": "「家具が天井まで浮いちゃった！」",
+    "もじゃも": "「みんなの髪がもじゃもじゃに！」",
+    "もちだし": "「村中がお餅だらけだ！」",
+    "ふんわり": "「みんなふわふわ宙に浮いてる！」",
+    "ぺたんこ": "「体がペタペタになって動けない！」",
+    "くすぐり": "「みんな笑い転げてる！」",
+    "ふえふき": "「へんてこな音楽が鳴り響いた！」",
+    "わすれろ": "「さっきのことを全部忘れちゃった！」",
+    "ねむたれ": "「みんな突然眠り込んでしまった！」",
+    "ぬのばさ": "「洗濯物が空を舞ってる！」",
+    "こえまね": "「誰の声かわからなくなった！」"
+};
+
 // 村の発展度バーを更新
 function updateVillageProgress() {
     const progress = getGameProgress();
@@ -477,12 +510,12 @@ function castSpell(spellName) {
     } else {
         // 不正解の場合
         console.log('💭 不正解...');
-        showResult(currentEvent.failure, false);
+        showResult(currentEvent.failure, false, spellName);
     }
 }
 
 // 📋 結果を表示
-function showResult(message, isSuccess) {
+function showResult(message, isSuccess, spellName = '') {
     console.log(`📋 結果表示: ${isSuccess ? '成功' : '失敗'}`);
     
     // 画面を切り替え
@@ -494,7 +527,7 @@ function showResult(message, isSuccess) {
         const praise = praiseMessages[Math.floor(Math.random() * praiseMessages.length)];
         message += `<br><br>${praise}`;
     } else {
-        const reaction = failureReactions[Math.floor(Math.random() * failureReactions.length)];
+        const reaction = spellFailureReactions[spellName] || failureReactions[Math.floor(Math.random() * failureReactions.length)];
         message += `<br><br>${reaction}`;
     }
 
