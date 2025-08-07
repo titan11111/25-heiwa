@@ -73,6 +73,30 @@ const villageAreas = {
         npcIcon: "🧑‍🍳",
         npc2: "宿屋の娘",
         npc2Icon: "👩‍🍳"
+    },
+    market: {
+        name: "市場",
+        icon: "🛒",
+        npc: "商人",
+        npcIcon: "🧑‍💼",
+        npc2: "旅人",
+        npc2Icon: "🧑"
+    },
+    harbor: {
+        name: "港",
+        icon: "⚓",
+        npc: "漁師",
+        npcIcon: "👨‍✈️",
+        npc2: "海の子",
+        npc2Icon: "👦"
+    },
+    tower: {
+        name: "塔",
+        icon: "🗼",
+        npc: "見張り",
+        npcIcon: "🕵️‍♂️",
+        npc2: "弟子",
+        npc2Icon: "🧑‍🎓"
     }
 };
 
@@ -291,13 +315,20 @@ const events = {
             success: "変な音楽が奏でられました！娘が楽しそうです。",
             failure: "「あら、勇者様。その魔法だと私がもっと静かになっちゃいますわ😰 音楽を奏でる魔法をお願いします！」"
         }
-    ]
+    ],
+    market: [],
+    harbor: [],
+    tower: []
 };
 
 // 🎲 現在の状態を記録する変数
 let currentArea = null;
 let currentEvent = null;
 let solvedEvents = new Set(); // 解決したイベントを記録
+let villageDevelopment = 0; // 裏の発展度
+const developmentMultiplier = 5; // 発展速度の倍率
+const initialLockedAreas = ['market', 'harbor', 'tower'];
+let lockedAreaQueue = [...initialLockedAreas];
 
 // 🎉 成功時に表示する褒め言葉
 const praiseMessages = [
@@ -346,14 +377,35 @@ const spellFailureReactions = {
     "こえまね": "「誰の声かわからなくなった！」"
 };
 
+// 裏の発展度を増やす
+function increaseVillageDevelopment() {
+    const totalEvents = Object.values(events).flat().length;
+    const increment = (100 / totalEvents) * developmentMultiplier;
+    villageDevelopment += increment;
+    if (villageDevelopment >= 100) {
+        villageDevelopment -= 100;
+        unlockNextArea();
+    }
+}
+
+// 次のエリアを解放
+function unlockNextArea() {
+    const nextArea = lockedAreaQueue.shift();
+    if (!nextArea) return;
+    const button = document.querySelector(`.map-area[data-area="${nextArea}"]`);
+    if (button) {
+        button.classList.remove('hidden');
+    }
+}
+
 // 村の発展度バーを更新
 function updateVillageProgress() {
-    const progress = getGameProgress();
     const progressBar = document.getElementById('progressBar');
     const progressPercent = document.getElementById('progressPercent');
     if (progressBar && progressPercent) {
-        progressBar.value = progress.percentage;
-        progressPercent.textContent = progress.percentage + '%';
+        const value = Math.floor(villageDevelopment);
+        progressBar.value = value;
+        progressPercent.textContent = value + '%';
     }
 }
 
@@ -538,6 +590,7 @@ function showResult(message, isSuccess, spellName = '') {
     const continueButton = document.getElementById('continueButton');
     if (isSuccess) {
         continueButton.classList.remove('hidden');
+        increaseVillageDevelopment();
         updateVillageProgress(); // 成功時も進捗バー更新
 
         // すべてのイベントを解決したかチェック
@@ -591,6 +644,13 @@ function debugGame() {
 // 🎮 チートコマンド（開発用）
 function resetGame() {
     solvedEvents.clear();
+    villageDevelopment = 0;
+    lockedAreaQueue = [...initialLockedAreas];
+    initialLockedAreas.forEach(areaKey => {
+        const btn = document.querySelector(`.map-area[data-area="${areaKey}"]`);
+        if (btn) btn.classList.add('hidden');
+    });
+    updateVillageProgress();
     showVillageMap();
     console.log('🎮 ゲームをリセットしました');
 }
